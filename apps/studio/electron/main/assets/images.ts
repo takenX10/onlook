@@ -58,7 +58,9 @@ export async function saveImageToProject(
     try {
         const imageFolder = path.join(projectFolder, DefaultSettings.IMAGE_FOLDER);
         const imagePath = path.join(imageFolder, fileName);
-
+        if (!fs.existsSync(imageFolder)) {
+            fs.mkdirSync(imageFolder, { recursive: true });
+        }
         try {
             await fs.access(imagePath);
             throw new Error(`File ${fileName} already exists`);
